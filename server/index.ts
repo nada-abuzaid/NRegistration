@@ -16,12 +16,13 @@ app.get('/api/countries', async (req, res) => {
     headers: {
       'X-CSCAPI-KEY': process.env.API_KEY,
     },
-  });
+  });  
   res.send(data.data);
 });
 
 app.post('/api/city', async (req, res) => {
   const { country } = req.body;
+  
   const apiUrl = `https://www.universal-tutorial.com/api/states/${country}`;
   const data = await axios(apiUrl, {
     method: 'GET',

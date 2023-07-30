@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import { FormDisabledDemo } from './components/Form/Form';
+import { FormDisabledDemo } from './components/Form';
 import './index.css';
 
 const App = () => (

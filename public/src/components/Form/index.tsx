@@ -20,10 +20,10 @@ export const FormDisabledDemo = () => {
   const inputsType =
     customerType === 'business' ? businessInputs : INDIVIDUAL_INPUTS;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`http://localhost:3000/api/countries`);
+  const fetchData = async (endpoint: any) => {
+    try {
+      if (endpoint === 'api/countries') {
+        const { data } = await axios.get(`http://localhost:3000/${endpoint}`);
         setIsLoading(false);
 
         const options = data.map((country: any) => ({
@@ -37,42 +37,33 @@ export const FormDisabledDemo = () => {
         );
 
         setBusinessInputs(updatedInputs);
-      } catch {
-        setIsLoading(false);
-        console.log('Error');
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.post(
-          `http://localhost:3000/api/city`, {
-            country: selectedCountry,
-          }
-        );
-        setIsLoading(false);
-
+      } else {
+        const { data } = await axios.post(`http://localhost:3000/api/city`, {
+          country: selectedCountry,
+        });
         const options = data.map((city: any) => ({
           id: city.state_name,
           value: city.state_name,
           label: city.state_name,
         }));
-
         const updatedInputs = businessInputs.map((input) =>
           input.name === 'city' ? { ...input, options: options } : input
         );
-
         setBusinessInputs(updatedInputs);
-      } catch {
-        setIsLoading(false);
-        console.log('Error');
       }
-    };
+    } catch {
+      setIsLoading(false);
+      console.log('Error');
+    }
+  };
+
+  useEffect(() => {
+    fetchData('api/countries');
+  }, []);
+
+  useEffect(() => {
     if (selectedCountry !== '') {
-      fetchData();
+      fetchData('api/city');
     }
   }, [selectedCountry]);
 
