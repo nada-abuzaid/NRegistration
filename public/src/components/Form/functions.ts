@@ -36,7 +36,6 @@ export const handleSubmit = async (values: any) => {
   console.log(values);
   
   // try {
-  //   const values = await form.validateFields();
   //   await schema.validate(values, { abortEarly: false });
   //   console.log('Form submitted');
   // } catch (validationErrors: any) {

@@ -84,6 +84,7 @@ export const RegisterForm = () => {
       <Inputs
         inputsType={inputsType}
         isDisable={isDisable}
+        selectedCountry={selectedCountry}
         setSelectedCountry={setSelectedCountry}
         setCustomerType={setCustomerType}
       />
