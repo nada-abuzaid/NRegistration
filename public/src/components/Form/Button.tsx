@@ -1,5 +1,10 @@
 import { SubmitButton } from './styled';
 
-export const Button = () => {
-  return <SubmitButton htmlType="submit">Submit</SubmitButton>;
+export const Button = ({ submittable }: any) => {
+  
+  return (
+    <SubmitButton htmlType="submit" disabled={!submittable}>
+      Submit
+    </SubmitButton>
+  );
 };

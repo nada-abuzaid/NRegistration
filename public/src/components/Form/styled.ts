@@ -6,4 +6,7 @@ export const SubmitButton = styled(Button)<ButtonProps>`
   color: white;
   width: 100%;
   height: 45px;
+  :hover {
+    color: white;
+  }
 `;

@@ -17,7 +17,7 @@ export const Inputs = ({
           const isCitiesInputVisible = name === 'cities' && selectedCountry === '';
           if (isCitiesInputVisible) return;
           return (
-            <Item name={name} label={label} id={id} key={id}>
+            <Item name={name} label={label} id={id} key={id} inputsType={inputsType}>
               {type === 'list' ? (
                 <Select
                   placeholder={placeholder}

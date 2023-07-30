@@ -1,5 +1,4 @@
 import axiosInstance from '../../utils/api';
-// import { schema } from '../../utils/validation';
 
 export const processData = ({
   data,
@@ -32,21 +31,20 @@ export const fetchData = async ({ endpoint, selectedCountry }: any) => {
   }
 };
 
-export const handleSubmit = async (values: any) => {
-  console.log(values);
-  
-  // try {
-  //   await schema.validate(values, { abortEarly: false });
-  //   console.log('Form submitted');
-  // } catch (validationErrors: any) {
-  //   const errors: Record<string, string> = {};
-  //   validationErrors.inner.forEach(({ name, errors: [errorMessage] }: any) => {
-  //     errors[name] = errorMessage;
-  //   });
-  // }
+export const handleSubmit = async (values: any, schema: any) => {
+  try {
+    schema.validateSync(values, { abortEarly: false });
+    console.log('Individual customer is valid.');
+  } catch (error: any) {
+    console.error('Individual customer validation failed:', error.errors);
+  }
 };
 
-export const handleSelect = (event: any, name: any, setSelectedCountry: any) => {
+export const handleSelect = (
+  event: any,
+  name: any,
+  setSelectedCountry: any
+) => {
   if (name === 'countries') {
     setSelectedCountry(event);
   } else if (name === 'cities') {
