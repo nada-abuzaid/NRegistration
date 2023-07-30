@@ -1,10 +1,19 @@
 import { RegisterForm, Header } from '../components';
+import { Col, Row } from 'antd';
+import { Container, Side } from './styled';
 
 export default function Home() {
   return (
-    <div className="container">
-      <Header />
-      <RegisterForm />
-    </div>
+    <Row>
+      <Col span={12}>
+        <Side />
+      </Col>
+      <Col span={12}>
+        <Container>
+          <Header />
+          <RegisterForm />
+        </Container>
+      </Col>
+    </Row>
   );
 }

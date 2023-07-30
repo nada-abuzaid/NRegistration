@@ -1,6 +1,6 @@
 import { Form } from 'antd';
 
-export const Item = ({ id, label, name, error, children }: any) => (
+export const Item = ({ id, label, name, children }: any) => (
   <Form.Item
     key={id}
     label={label}
