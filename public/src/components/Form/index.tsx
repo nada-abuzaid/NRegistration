@@ -1,18 +1,21 @@
-import { Form, Input, Radio, Select } from 'antd';
+import { Form, Radio } from 'antd';
 import { useEffect, useState } from 'react';
 import { INDIVIDUAL_INPUTS, BUSINESS_INPUTS } from '../../constants';
-import { IFields, IGender } from '../../interfaces';
-import { Item } from './Item';
 import { useQuery } from 'react-query';
-import { fetchData, handleChange, handleSelect, handleSubmit, processData } from './functions';
+import {
+  fetchData,
+  handleChange,
+  handleSubmit,
+  processData,
+} from './functions';
 import { Button } from './Button';
+import { Inputs } from './Inputs';
 
 export const RegisterForm = () => {
   const [customerType, setCustomerType] = useState('');
   const [isDisable, setIsDisable] = useState(true);
   const [businessInputs, setBusinessInputs] = useState(BUSINESS_INPUTS);
   const [selectedCountry, setSelectedCountry] = useState('');
-  const [form] = Form.useForm();
 
   const inputsType =
     customerType === 'business' ? businessInputs : INDIVIDUAL_INPUTS;
@@ -70,8 +73,7 @@ export const RegisterForm = () => {
       wrapperCol={{ span: 14 }}
       colon={false}
       style={{ width: '50%' }}
-      form={form}
-      onFinish={() => handleSubmit(form)}
+      onFinish={handleSubmit}
     >
       <Form.Item label="Type" labelCol={{ span: 6 }} labelAlign="left">
         <Radio.Group onChange={(e: any) => handleChange(e, setCustomerType)}>
@@ -79,32 +81,12 @@ export const RegisterForm = () => {
           <Radio value="business">Business</Radio>
         </Radio.Group>
       </Form.Item>
-      {inputsType.map(
-        ({ id, label, type, name, placeholder, options = [] }: IFields) => (
-          <Item name={name} label={label} id={id} key={id}>
-            {type === 'list' ? (
-              <Select
-                placeholder={placeholder}
-                disabled={isDisable}
-                onChange={(e) => handleSelect(e, name, setSelectedCountry)}
-              >
-                {options.map(({ id, label, value }: IGender) => (
-                  <Select.Option key={id} value={value}>
-                    {label}
-                  </Select.Option>
-                ))}
-              </Select>
-            ) : (
-              <Input
-                type={type}
-                placeholder={placeholder}
-                disabled={isDisable}
-                onChange={(e: any) => handleChange(e, setCustomerType)}
-              />
-            )}
-          </Item>
-        )
-      )}
+      <Inputs
+        inputsType={inputsType}
+        isDisable={isDisable}
+        setSelectedCountry={setSelectedCountry}
+        setCustomerType={setCustomerType}
+      />
       <Button />
     </Form>
   );

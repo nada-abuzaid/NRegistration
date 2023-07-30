@@ -1,5 +1,5 @@
 import axiosInstance from '../../utils/api';
-import { schema } from '../../utils/validation';
+// import { schema } from '../../utils/validation';
 
 export const processData = ({
   data,
@@ -32,19 +32,20 @@ export const fetchData = async ({ endpoint, selectedCountry }: any) => {
   }
 };
 
-export const handleSubmit = async (form: any) => {
-  try {
-    const values = await form.validateFields();
-    await schema.validate(values, { abortEarly: false });
-    console.log('Form submitted');
-  } catch (validationErrors: any) {
-    const errors: Record<string, string> = {};
-    validationErrors.inner.forEach(({ name, errors: [errorMessage] }: any) => {
-      errors[name] = errorMessage;
-    });
-  }
+export const handleSubmit = async (values: any) => {
+  console.log(values);
+  
+  // try {
+  //   const values = await form.validateFields();
+  //   await schema.validate(values, { abortEarly: false });
+  //   console.log('Form submitted');
+  // } catch (validationErrors: any) {
+  //   const errors: Record<string, string> = {};
+  //   validationErrors.inner.forEach(({ name, errors: [errorMessage] }: any) => {
+  //     errors[name] = errorMessage;
+  //   });
+  // }
 };
-
 
 export const handleSelect = (event: any, name: any, setSelectedCountry: any) => {
   if (name === 'countries') {
