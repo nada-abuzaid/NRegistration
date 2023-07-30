@@ -5,10 +5,10 @@ import { SubmitButton } from './styled';
 import { INDIVIDUAL_INPUTS, BUSINESS_INPUTS } from '../../constants';
 import { IFields, IGender } from '../../interfaces';
 import { Item } from './Item';
-import { Header } from '../Header';
 import axiosInstance from '../../utils/api';
+import { useQuery } from 'react-query';
 
-export const FormDisabledDemo = () => {
+export const RegisterForm = () => {
   const [customerType, setCustomerType] = useState('');
   const [isDisable, setIsDisable] = useState(true);
   const [formErrors, setFormErrors] = useState({});
@@ -28,42 +28,45 @@ export const FormDisabledDemo = () => {
       const data = await axiosInstance.get(`${endpoint}`);
       return data;
     } catch (error) {
-      console.log('Error fetching data:', error);
-      return [];
+      return error;
     }
   };
 
-  const processData = async (endpoint: any) => {
-    try {
-      const data = (await fetchData(endpoint)) as any;
+  const { data: countriesData, isLoading: countriesLoading } = useQuery(
+    'countries',
+    () => fetchData('countries')
+  );
 
-      const options = data.map((item: any) => ({
-        id: endpoint === 'countries' ? item.id : item.state_name,
-        value: endpoint === 'countries' ? item.name : item.state_name,
-        label: endpoint === 'countries' ? item.name : item.state_name,
-      }));
+  const { data: citiesData, isLoading: citiesLoading } = useQuery(
+    ['cities', selectedCountry],
+    () => fetchData('cities'),
+    { enabled: selectedCountry !== '' }
+  );
 
-      const updatedInputs = businessInputs.map((input) =>
-        input.name === endpoint ? { ...input, options: options } : input
-      );
+  const processData = (data: any, endpoint: string) => {
+    const options = data.map((item: any) => ({
+      id: endpoint === 'countries' ? item.id : item.state_name,
+      value: endpoint === 'countries' ? item.name : item.state_name,
+      label: endpoint === 'countries' ? item.name : item.state_name,
+    }));
+    const updatedInputs = businessInputs.map((input) =>
+      input.name === endpoint ? { ...input, options: options } : input
+    );
 
-      setBusinessInputs(updatedInputs);
-
-    } catch (error) {
-      console.error('Error processing data:', error);
-      return [];
-    }
+    setBusinessInputs(updatedInputs);
   };
 
   useEffect(() => {
-    processData('countries');
-  }, []);
-
-  useEffect(() => {
-    if (selectedCountry !== '') {
-      processData('cities');
+    if (!countriesLoading && countriesData) { 
+      processData(countriesData, 'countries');
     }
-  }, [selectedCountry]);
+  }, [countriesData, countriesLoading]);
+  
+  useEffect(() => {
+    if (!citiesLoading && citiesData) { 
+      processData(citiesData, 'cities');
+    }
+  }, [citiesData, citiesLoading, selectedCountry]);
 
   useEffect(() => {
     if (customerType !== '') {
@@ -110,8 +113,6 @@ export const FormDisabledDemo = () => {
   };
 
   return (
-    <div className="container">
-      <Header />
       <Form
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
@@ -167,6 +168,5 @@ export const FormDisabledDemo = () => {
           Submit
         </SubmitButton>
       </Form>
-    </div>
   );
 };
