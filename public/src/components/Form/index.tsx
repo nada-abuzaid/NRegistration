@@ -11,7 +11,7 @@ import {
 import { Button } from './Button';
 import { Inputs } from './Inputs';
 import { validationSchema } from '../../utils/validation';
-import { useForm } from 'antd/es/form/Form';
+import { useForm } from 'antd/lib/form/Form';
 
 export const RegisterForm = () => {
   const [customerType, setCustomerType] = useState('');
