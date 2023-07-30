@@ -7,6 +7,7 @@ import { IFields, IGender } from '../../interfaces';
 import { Item } from './Item';
 import { Header } from '../Header';
 import axios from 'axios';
+import axiosInstance from '../../utils/api/axios';
 
 export const FormDisabledDemo = () => {
   const [customerType, setCustomerType] = useState('');
@@ -23,7 +24,7 @@ export const FormDisabledDemo = () => {
   const fetchData = async (endpoint: any) => {
     try {
       if (endpoint === 'api/countries') {
-        const { data } = await axios.get(`http://localhost:3000/${endpoint}`);
+        const data = await axiosInstance.get(`/countries`) as any;
         setIsLoading(false);
 
         const options = data.map((country: any) => ({
@@ -31,6 +32,7 @@ export const FormDisabledDemo = () => {
           value: country.name,
           label: country.name,
         }));
+        console.log(options)
 
         const updatedInputs = BUSINESS_INPUTS.map((input) =>
           input.name === 'country' ? { ...input, options: options } : input
@@ -38,9 +40,9 @@ export const FormDisabledDemo = () => {
 
         setBusinessInputs(updatedInputs);
       } else {
-        const { data } = await axios.post(`http://localhost:3000/api/city`, {
+        const data = await axiosInstance.post(`/city`, {
           country: selectedCountry,
-        });
+        }) as any;
         const options = data.map((city: any) => ({
           id: city.state_name,
           value: city.state_name,
