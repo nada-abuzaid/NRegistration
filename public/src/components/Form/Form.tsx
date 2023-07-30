@@ -14,7 +14,6 @@ export const FormDisabledDemo = () => {
   const [formErrors, setFormErrors] = useState({});
   const [businessInputs, setBusinessInputs] = useState(BUSINESS_INPUTS);
   const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
 
@@ -28,15 +27,14 @@ export const FormDisabledDemo = () => {
         setIsLoading(false);
 
         const options = data.map((country: any) => ({
-          id: country.code,
-          value: country.code,
+          id: country.id,
+          value: country.name,
           label: country.name,
         }));
 
         const updatedInputs = BUSINESS_INPUTS.map((input) =>
           input.name === 'country' ? { ...input, options: options } : input
         );
-        console.log(updatedInputs, 'countires');
 
         setBusinessInputs(updatedInputs);
       } catch {
@@ -50,50 +48,17 @@ export const FormDisabledDemo = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:3000/api/region/${selectedCountry}`
-        );
-        setIsLoading(false);
-
-        const options = data.map((region: any, index: any) => ({
-          id: index,
-          value: region.region,
-          label: region.region,
-        }));
-        console.log(options), 'region';
-
-        const updatedInputs = businessInputs.map((input) =>
-          input.name === 'region' ? { ...input, options: options } : input
-        );
-
-        setBusinessInputs(updatedInputs);
-      } catch {
-        setIsLoading(false);
-        console.log('Error');
-      }
-    };
-    if (selectedCountry != '') {
-      console.log('11111');
-
-      fetchData();
-    }
-  }, [selectedCountry]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
         const { data } = await axios.post(
-          `http://localhost:3000/api/city/${selectedCountry}`,
-          {
-            region: selectedRegion,
+          `http://localhost:3000/api/city`, {
+            country: selectedCountry,
           }
         );
         setIsLoading(false);
 
-        const options = data.map((city: any, index: any) => ({
-          id: index,
-          value: city.city,
-          label: city.city,
+        const options = data.map((city: any) => ({
+          id: city.state_name,
+          value: city.state_name,
+          label: city.state_name,
         }));
 
         const updatedInputs = businessInputs.map((input) =>
@@ -106,10 +71,10 @@ export const FormDisabledDemo = () => {
         console.log('Error');
       }
     };
-    if (selectedCountry !== '' && selectedRegion != '') {
+    if (selectedCountry !== '') {
       fetchData();
     }
-  }, [selectedCountry, selectedRegion]);
+  }, [selectedCountry]);
 
   useEffect(() => {
     if (customerType !== '') {
@@ -120,8 +85,6 @@ export const FormDisabledDemo = () => {
   const handleSelect = (event: any, name: any) => {
     if (name === 'country') {
       setSelectedCountry(event);
-    } else if (name === 'region') {
-      setSelectedRegion(event);
     } else if (name === 'city') {
       console.log(event);
     }

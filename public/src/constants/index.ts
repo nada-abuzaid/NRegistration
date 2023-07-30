@@ -120,15 +120,6 @@ export const BUSINESS_INPUTS = [
     options: [],
   },
   {
-    id: 7,
-    label: 'Region',
-    name: 'region',
-    placeholder: 'Select Region',
-    type: 'list',
-    error: 'Region is required',
-    options: [],
-  },
-  {
     id: 8,
     label: 'City',
     name: 'city',
