@@ -6,8 +6,7 @@ import { INDIVIDUAL_INPUTS, BUSINESS_INPUTS } from '../../constants';
 import { IFields, IGender } from '../../interfaces';
 import { Item } from './Item';
 import { Header } from '../Header';
-import axios from 'axios';
-import axiosInstance from '../../utils/api/axios';
+import axiosInstance from '../../utils/api';
 
 export const FormDisabledDemo = () => {
   const [customerType, setCustomerType] = useState('');
@@ -15,57 +14,54 @@ export const FormDisabledDemo = () => {
   const [formErrors, setFormErrors] = useState({});
   const [businessInputs, setBusinessInputs] = useState(BUSINESS_INPUTS);
   const [selectedCountry, setSelectedCountry] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
 
   const inputsType =
     customerType === 'business' ? businessInputs : INDIVIDUAL_INPUTS;
 
-  const fetchData = async (endpoint: any) => {
+  const fetchData = async (endpoint: string) => {
+    endpoint =
+      endpoint === 'countries'
+        ? `/${endpoint}`
+        : `/${endpoint}/${selectedCountry}`;
     try {
-      if (endpoint === 'api/countries') {
-        const data = await axiosInstance.get(`/countries`) as any;
-        setIsLoading(false);
+      const data = await axiosInstance.get(`${endpoint}`);
+      return data;
+    } catch (error) {
+      console.log('Error fetching data:', error);
+      return [];
+    }
+  };
 
-        const options = data.map((country: any) => ({
-          id: country.id,
-          value: country.name,
-          label: country.name,
-        }));
-        console.log(options)
+  const processData = async (endpoint: any) => {
+    try {
+      const data = (await fetchData(endpoint)) as any;
 
-        const updatedInputs = BUSINESS_INPUTS.map((input) =>
-          input.name === 'country' ? { ...input, options: options } : input
-        );
+      const options = data.map((item: any) => ({
+        id: endpoint === 'countries' ? item.id : item.state_name,
+        value: endpoint === 'countries' ? item.name : item.state_name,
+        label: endpoint === 'countries' ? item.name : item.state_name,
+      }));
 
-        setBusinessInputs(updatedInputs);
-      } else {
-        const data = await axiosInstance.post(`/city`, {
-          country: selectedCountry,
-        }) as any;
-        const options = data.map((city: any) => ({
-          id: city.state_name,
-          value: city.state_name,
-          label: city.state_name,
-        }));
-        const updatedInputs = businessInputs.map((input) =>
-          input.name === 'city' ? { ...input, options: options } : input
-        );
-        setBusinessInputs(updatedInputs);
-      }
-    } catch {
-      setIsLoading(false);
-      console.log('Error');
+      const updatedInputs = businessInputs.map((input) =>
+        input.name === endpoint ? { ...input, options: options } : input
+      );
+
+      setBusinessInputs(updatedInputs);
+
+    } catch (error) {
+      console.error('Error processing data:', error);
+      return [];
     }
   };
 
   useEffect(() => {
-    fetchData('api/countries');
+    processData('countries');
   }, []);
 
   useEffect(() => {
     if (selectedCountry !== '') {
-      fetchData('api/city');
+      processData('cities');
     }
   }, [selectedCountry]);
 
@@ -76,9 +72,9 @@ export const FormDisabledDemo = () => {
   }, [customerType]);
 
   const handleSelect = (event: any, name: any) => {
-    if (name === 'country') {
+    if (name === 'countries') {
       setSelectedCountry(event);
-    } else if (name === 'city') {
+    } else if (name === 'cities') {
       console.log(event);
     }
   };
@@ -113,7 +109,6 @@ export const FormDisabledDemo = () => {
     }
   };
 
-  if (isLoading) return <div> Loading</div>;
   return (
     <div className="container">
       <Header />

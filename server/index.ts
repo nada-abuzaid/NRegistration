@@ -17,13 +17,12 @@ app.get('/api/countries', async (req, res) => {
       'X-CSCAPI-KEY': process.env.API_KEY,
     },
   });  
+  
   res.send(data.data);
 });
 
-app.post('/api/city', async (req, res) => {
-  const { country } = req.body;
-  
-  const apiUrl = `https://www.universal-tutorial.com/api/states/${country}`;
+app.get('/api/cities/:country', async (req, res) => {
+  const apiUrl = `https://www.universal-tutorial.com/api/states/${req.params.country}`;
   const data = await axios(apiUrl, {
     method: 'GET',
     withCredentials: true,
@@ -37,6 +36,6 @@ app.post('/api/city', async (req, res) => {
   res.send(data.data);
 });
 
-const server = app.listen(3000, () =>
+app.listen(3000, () =>
   console.log(`Server started on http://localhost:3000`)
 );
