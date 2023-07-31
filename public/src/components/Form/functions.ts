@@ -39,7 +39,7 @@ export const handleSubmit = async (values: any, schema: any, navigate: any) => {
     const data = await axiosInstance.post(ENDPOINTS.USER, {
       user: values,
     }) as any;
-    navigate('/', { state: { message: data.message } });
+    navigate('/home', { state: { message: data.message } });
   } catch (error: any) {
     console.log('Customer validation failed:', error.errors);
   }
