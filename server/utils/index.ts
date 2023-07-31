@@ -1,9 +1,7 @@
-import axios from 'axios';
+import { fetchData } from './fetch';
+import { generateValidationSchema } from './validation';
 
-export const fetchData = async (apiUrl: string, headers: any) => {
-  return await axios(apiUrl, {
-    method: 'GET',
-    withCredentials: true,
-    headers: headers,
-  });
-};
+export {
+    fetchData,
+    generateValidationSchema
+}

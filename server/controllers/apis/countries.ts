@@ -1,8 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { fetchData } from '../../utils';
+import { fetchData } from '../../utils/fetch';
 import { APIS } from '../../constants';
 
-export const countriesController = async (_req: Request, res: Response, next: NextFunction) => {
+export const countriesController = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const headers = {
       'X-CSCAPI-KEY': process.env.API_KEY,

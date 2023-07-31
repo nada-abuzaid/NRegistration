@@ -1,8 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { fetchData } from '../../utils';
+import { fetchData } from '../../utils/fetch';
 import { APIS } from '../../constants';
 
-export const citiesController = async (req: Request, res: Response, next: NextFunction) => {
+export const citiesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const headers = {
       Accept: 'application/json',
