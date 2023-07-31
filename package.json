@@ -1,0 +1,12 @@
+{
+  "name": "nregistration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "heroku-postbuild": "cd server && npm i && npm run build && cd ../public && npm i && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
