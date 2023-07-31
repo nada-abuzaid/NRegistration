@@ -6,5 +6,6 @@ export const BASE_URL = HOST + PREFIX;
 
 export const ENDPOINTS = {
     COUNTRIES: "countries",
-    CITIES: "cities"
+    CITIES: "cities",
+    USER: "user",
 }

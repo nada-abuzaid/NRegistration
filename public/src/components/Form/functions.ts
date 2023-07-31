@@ -7,7 +7,7 @@ export const processData = ({
   businessInputs,
   setBusinessInputs,
 }: any) => {
-  const options = data.map((item: any,) => ({
+  const options = data.map((item: any) => ({
     id: endpoint === ENDPOINTS.COUNTRIES ? item.id : item.state_name,
     value: endpoint === ENDPOINTS.COUNTRIES ? item.name : item.state_name,
     label: endpoint === ENDPOINTS.COUNTRIES ? item.name : item.state_name,
@@ -26,19 +26,22 @@ export const fetchData = async ({ endpoint, selectedCountry }: any) => {
       : `/${endpoint}/${selectedCountry}`;
   try {
     const data = await axiosInstance.get(`${endpoint}`);
-    
+
     return data;
   } catch (error) {
     return error;
   }
 };
 
-export const handleSubmit = async (values: any, schema: any) => {  
+export const handleSubmit = async (values: any, schema: any, navigate: any) => {
   try {
     schema.validateSync(values, { abortEarly: false });
-    console.log('Individual customer is valid.');
+    const data = await axiosInstance.post(ENDPOINTS.USER, {
+      user: values,
+    }) as any;
+    navigate('/', { state: { message: data.message } });
   } catch (error: any) {
-    console.error('Individual customer validation failed:', error.errors);
+    console.log('Customer validation failed:', error.errors);
   }
 };
 

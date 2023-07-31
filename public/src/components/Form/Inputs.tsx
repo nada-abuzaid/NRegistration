@@ -6,7 +6,7 @@ import { ENDPOINTS } from '../../constants';
 
 export const Inputs = ({
   inputsType,
-  isDisable,
+  isFormDisable,
   selectedCountry,
   setSelectedCountry,
   setCustomerType,
@@ -22,7 +22,7 @@ export const Inputs = ({
               {type === 'list' ? (
                 <Select
                   placeholder={placeholder}
-                  disabled={isDisable}
+                  disabled={isFormDisable}
                   onChange={(e) => handleSelect(e, name, setSelectedCountry)}
                 >
                   {options.map(({ id, label, value }: IGender) => (
@@ -35,7 +35,7 @@ export const Inputs = ({
                 <Input
                   type={type}
                   placeholder={placeholder}
-                  disabled={isDisable}
+                  disabled={isFormDisable}
                   onChange={(e: any) => handleChange(e, setCustomerType)}
                 />
               )}

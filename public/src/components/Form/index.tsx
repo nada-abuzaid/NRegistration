@@ -1,5 +1,6 @@
 import { Form, Radio } from 'antd';
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useForm } from 'antd/lib/form/Form';
 import { useQuery } from 'react-query';
 import { INDIVIDUAL_INPUTS, BUSINESS_INPUTS } from '../../constants';
@@ -16,10 +17,12 @@ import { ENDPOINTS } from '../../constants';
 
 export const RegisterForm = () => {
   const [customerType, setCustomerType] = useState('');
-  const [isDisable, setIsDisable] = useState(true);
+  const [isFormDisable, setFormDisable] = useState(true);
   const [businessInputs, setBusinessInputs] = useState(BUSINESS_INPUTS);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [submittable, setSubmittable] = useState(false);
+  
+  const navigate = useNavigate();
 
   const [form] = useForm();
   const values = Form.useWatch([], form);
@@ -72,7 +75,7 @@ export const RegisterForm = () => {
 
   useEffect(() => {
     if (customerType !== '') {
-      setIsDisable(false);
+      setFormDisable(false);
       form.resetFields();
     }
   }, [customerType]);
@@ -95,7 +98,7 @@ export const RegisterForm = () => {
       colon={false}
       form={form}
       style={{ width: '50%' }}
-      onFinish={(values: any) => handleSubmit(values, schema)}
+      onFinish={(values: any) => handleSubmit(values, schema, navigate)}
     >
       <Form.Item label="Type" labelCol={{ span: 6 }} labelAlign="left">
         <Radio.Group onChange={(e: any) => handleChange(e, setCustomerType)}>
@@ -105,7 +108,7 @@ export const RegisterForm = () => {
       </Form.Item>
       <Inputs
         inputsType={inputsType}
-        isDisable={isDisable}
+        isFormDisable={isFormDisable}
         selectedCountry={selectedCountry}
         setSelectedCountry={setSelectedCountry}
         setCustomerType={setCustomerType}
