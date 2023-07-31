@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import { validationSchema } from '../../utils/validation';
+import { validationSchema } from '../../utils';
 
 export const Item = ({ id, label, name, inputsType, children }: any) => {
   const schema = validationSchema(inputsType);

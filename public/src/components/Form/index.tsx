@@ -1,7 +1,8 @@
 import { Form, Radio } from 'antd';
 import { useEffect, useState } from 'react';
-import { INDIVIDUAL_INPUTS, BUSINESS_INPUTS } from '../../constants';
+import { useForm } from 'antd/lib/form/Form';
 import { useQuery } from 'react-query';
+import { INDIVIDUAL_INPUTS, BUSINESS_INPUTS } from '../../constants';
 import {
   fetchData,
   handleChange,
@@ -10,8 +11,7 @@ import {
 } from './functions';
 import { Button } from './Button';
 import { Inputs } from './Inputs';
-import { validationSchema } from '../../utils/validation';
-import { useForm } from 'antd/lib/form/Form';
+import { validationSchema } from '../../utils';
 
 export const RegisterForm = () => {
   const [customerType, setCustomerType] = useState('');

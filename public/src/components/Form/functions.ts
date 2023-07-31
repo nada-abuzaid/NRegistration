@@ -1,4 +1,4 @@
-import axiosInstance from '../../utils/api';
+import { axiosInstance } from '../../utils';
 
 export const processData = ({
   data,
