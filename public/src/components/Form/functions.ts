@@ -1,3 +1,4 @@
+import { ENDPOINTS } from '../../constants';
 import { axiosInstance } from '../../utils';
 
 export const processData = ({
@@ -6,10 +7,10 @@ export const processData = ({
   businessInputs,
   setBusinessInputs,
 }: any) => {
-  const options = data.map((item: any) => ({
-    id: endpoint === 'countries' ? item.id : item.state_name,
-    value: endpoint === 'countries' ? item.name : item.state_name,
-    label: endpoint === 'countries' ? item.name : item.state_name,
+  const options = data.map((item: any,) => ({
+    id: endpoint === ENDPOINTS.COUNTRIES ? item.id : item.state_name,
+    value: endpoint === ENDPOINTS.COUNTRIES ? item.name : item.state_name,
+    label: endpoint === ENDPOINTS.COUNTRIES ? item.name : item.state_name,
   }));
   const updatedInputs = businessInputs.map((input: any) =>
     input.name === endpoint ? { ...input, options: options } : input
@@ -20,18 +21,19 @@ export const processData = ({
 
 export const fetchData = async ({ endpoint, selectedCountry }: any) => {
   endpoint =
-    endpoint === 'countries'
+    endpoint === ENDPOINTS.COUNTRIES
       ? `/${endpoint}`
       : `/${endpoint}/${selectedCountry}`;
   try {
     const data = await axiosInstance.get(`${endpoint}`);
+    
     return data;
   } catch (error) {
     return error;
   }
 };
 
-export const handleSubmit = async (values: any, schema: any) => {
+export const handleSubmit = async (values: any, schema: any) => {  
   try {
     schema.validateSync(values, { abortEarly: false });
     console.log('Individual customer is valid.');
@@ -45,17 +47,13 @@ export const handleSelect = (
   name: any,
   setSelectedCountry: any
 ) => {
-  if (name === 'countries') {
+  if (name === ENDPOINTS.COUNTRIES) {
     setSelectedCountry(event);
-  } else if (name === 'cities') {
-    console.log(event);
   }
 };
 
 export const handleChange = (event: any, setCustomerType: any) => {
   if (event.target.type === 'radio') {
     setCustomerType(event.target.value);
-  } else {
-    console.log('ok');
   }
 };

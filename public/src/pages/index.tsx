@@ -4,11 +4,11 @@ import { Container, Side } from './styled';
 
 export default function Home() {
   return (
-    <Row>
-      <Col span={12}>
+    <Row gutter={[12, 12]}>
+      <Col xs={24} sm={12} md={12}>
         <Side />
       </Col>
-      <Col span={12}>
+      <Col xs={24} sm={12} md={12}>
         <Container>
           <Header />
           <RegisterForm />

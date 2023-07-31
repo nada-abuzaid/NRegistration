@@ -63,7 +63,7 @@ export const RegisterForm = () => {
     if (!citiesLoading && citiesData) {
       processData({
         data: citiesData,
-        endpoint: ENDPOINTS.COUNTRIES,
+        endpoint: ENDPOINTS.CITIES,
         businessInputs,
         setBusinessInputs,
       });
@@ -110,9 +110,7 @@ export const RegisterForm = () => {
         setSelectedCountry={setSelectedCountry}
         setCustomerType={setCustomerType}
       />
-      <Form.Item name="button">
-        <Button submittable={submittable} form={form} />
-      </Form.Item>
+        <Button name="button" submittable={submittable} form={form} />
     </Form>
   );
 };

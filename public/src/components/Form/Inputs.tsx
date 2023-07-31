@@ -2,6 +2,7 @@ import { Input, Select } from 'antd';
 import { IFields, IGender } from '../../interfaces';
 import { Item } from './Item';
 import { handleChange, handleSelect } from './functions';
+import { ENDPOINTS } from '../../constants';
 
 export const Inputs = ({
   inputsType,
@@ -14,7 +15,7 @@ export const Inputs = ({
     <>
       {inputsType.map(
         ({ id, label, type, name, placeholder, options = [] }: IFields) => {
-          const isCitiesInputVisible = name === 'cities' && selectedCountry === '';
+          const isCitiesInputVisible = name === ENDPOINTS.CITIES && selectedCountry === '';
           if (isCitiesInputVisible) return;
           return (
             <Item name={name} label={label} id={id} key={id} inputsType={inputsType}>
