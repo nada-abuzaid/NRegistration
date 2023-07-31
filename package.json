@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "cd server && npm start",
     "heroku-postbuild": "cd server && npm i && npm run build && cd ../public && npm i && npm run build"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "vite": "^4.4.7"
+  }
 }
