@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "isolatedModules": false,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "lib": ["es2021", "dom"],
+    "types": ["node"]
+  },
+  "include": ["**/*.ts"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts", ".tsx"]
+      }
+    }
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  }
+}

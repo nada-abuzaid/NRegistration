@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./build && tsc",
-    "start": "node dist/src/index.js",
+    "build": "tsc -p tsconfig.json",    
+    "start": "NODE_ENV=production node dist/index.js",
     "dev": "NODE_ENV=development nodemon index.ts",
     "test": "jest",
     "lint": "eslint . --ext .ts",
