@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { BASE_URL } from '../../constants';
+import { PREFIX } from '../../constants';
 
 const axiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: PREFIX,
 });
 
 axiosInstance.interceptors.request.use(
