@@ -12,6 +12,7 @@ import {
 import { Button } from './Button';
 import { Inputs } from './Inputs';
 import { validationSchema } from '../../utils';
+import { ENDPOINTS } from '../../constants';
 
 export const RegisterForm = () => {
   const [customerType, setCustomerType] = useState('');
@@ -29,19 +30,19 @@ export const RegisterForm = () => {
   const schema = validationSchema(inputsType);
 
   const { data: countriesData, isLoading: countriesLoading } = useQuery(
-    'countries',
+    ENDPOINTS.COUNTRIES,
     () =>
       fetchData({
-        endpoint: 'countries',
+        endpoint: ENDPOINTS.COUNTRIES,
         selectedCountry,
       })
   );
 
   const { data: citiesData, isLoading: citiesLoading } = useQuery(
-    ['cities', selectedCountry],
+    [ENDPOINTS.CITIES, selectedCountry],
     () =>
       fetchData({
-        endpoint: 'cities',
+        endpoint: ENDPOINTS.CITIES,
         selectedCountry,
       }),
     { enabled: selectedCountry !== '' }
@@ -51,7 +52,7 @@ export const RegisterForm = () => {
     if (!countriesLoading && countriesData) {
       processData({
         data: countriesData,
-        endpoint: 'countries',
+        endpoint: ENDPOINTS.COUNTRIES,
         businessInputs,
         setBusinessInputs,
       });
@@ -62,7 +63,7 @@ export const RegisterForm = () => {
     if (!citiesLoading && citiesData) {
       processData({
         data: citiesData,
-        endpoint: 'cities',
+        endpoint: ENDPOINTS.COUNTRIES,
         businessInputs,
         setBusinessInputs,
       });
